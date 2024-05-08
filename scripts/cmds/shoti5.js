@@ -18,7 +18,7 @@ langs: {
   onStart: async function ({ api, event }) {
 
   api.sendMessage(`⏱️ | Video is sending please wait.`, event.threadID, event.messageID);
-axios.get('https://-api.luabot24.repl.co/shoti/?apikey=geloo').then(res => {
+axios.get('https://your-shoti-api.vercel.app/api/v1/get`, { apikey: `$shoti-1hjvb0q3sokk2bvme').then(res => {
   let ext = res.data.url.substring(res.data.url.lastIndexOf(".") + 1);
   let callback = function () {
           api.sendMessage({
