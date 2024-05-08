@@ -17,7 +17,6 @@
  * Cảm ơn bạn đã sử dụng
  */
 
-const keep_alive = require('./keep_alive.js')
 const { spawn } = require("child_process");
 const log = require("./logger/log.js");
 
