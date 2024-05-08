@@ -4,7 +4,7 @@ module.exports = {
 		version: "5.0",
 		author: "Sadman Anik",
 		countDown: 1,
-		role: 2,
+		role: 1,
 		shortDescription: {
 			en: "Enable/Disable Anti unsend mode"
 		},
