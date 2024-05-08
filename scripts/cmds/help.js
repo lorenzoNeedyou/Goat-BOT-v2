@@ -7,7 +7,7 @@ const doNotDelete = "[ 👾 | LorenzoBot V2 ]";
 
 module.exports = {
 	config: {
-		name: "help5",
+		name: "help",
 		version: "1.17",
 		author: "NTKhang", // orginal author Lorenzo
 		countDown: 5,
@@ -50,7 +50,7 @@ module.exports = {
 
 							const names = categories[category].commands.sort();
 							for (let i = 0; i < names.length; i += 1) {
-									const cmds = names.slice(i, i + 1).map(item => `│🌪️${item}⚡`);
+									const cmds = names.slice(i, i + 1).map(item => `│${prefix}${item}`);
 									msg += `\n${cmds.join(" ".repeat(Math.max(0, 5 - cmds.join("").length)))}`;
 							}
 
