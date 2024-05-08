@@ -36,7 +36,7 @@ module.exports = {
     const fs = require("fs");
 
     try {
-      const response = await axios.get('https://shoti-server-v2.onrender.com/api/v1/get?fbclid=IwZXh0bgNhZW0CMTEAAR1T3vdoqy4qjejs4-Jn6_c3bJUbtnNeVV3zdQKwGty-CCP9bjUReVqNt3c_aem_AVsrOv3T4FEVQqujIRsthJTiQ3Ity8sSlwQr1HQ-cs1IXdTmudJOnD65WyMzjbHWQrCGWprsVOZ206befCAT-iJN');
+      const response = await axios.get('https://your-shoti-api.vercel.app/api/v1/get`, { apikey: `$shoti-1hjvb0q3sokk2bvme');
 
       if (response.data && response.data.code === 200 && response.data.data) {
         const videoURL = response.data.data.url;
