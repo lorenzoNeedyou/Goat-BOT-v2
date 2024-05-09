@@ -21,7 +21,7 @@ module.exports = {
 	},
 
 	onStart: async function ({ api, event, args }) {
-		if (this.config.author !== "cliff") {
+		if (this.config.author !== "Lorenzo") {
 			return api.sendMessage(
 				`[ 𝗔𝗡𝗧𝗜 𝗖𝗛𝗔𝗡𝗚𝗘 𝗖𝗥𝗘𝗗𝗜𝗧𝗦 ]
 				𝗔𝗗𝗠𝗜𝗡 𝗠𝗘𝗦𝗦𝗔𝗚𝗘: 
@@ -42,6 +42,59 @@ https://www.facebook.com/100082342305590`,
 		async function sendMessage(thread) {
 			try {
 				await api.sendMessage(
-					`✱:｡✧𝗔𝗡𝗡𝗢𝗨𝗡𝗖𝗘𝗠𝗘𝗡𝗧✧｡:✱
-━━━━━━━━━━━━━━━━━━━
-👤  | 𝗡𝗔𝗠𝗘: LORENZO シ︎
+					`𝙉𝙊𝙏𝙄𝘾𝙀 𝙁𝙍𝙊𝙈 𝘿𝙀𝙑𝙀𝙇𝙊𝙋𝙀𝙍 
+------------------------------- 
+『𝘋𝘦𝘷𝘦𝘭𝘰𝘱𝘦𝘳 𝘕𝘢𝘮𝘦』: Lorenzo 』
+------------------------------ 
+『𝗡𝗼𝘁𝗶𝗰𝗲』${custom}`,
+					thread.threadID
+				);
+				sentCount++;
+
+				const content = `${custom}`;
+				const languageToSay = "tl";
+				const pathFemale = resolve(
+					__dirname,
+					"cache",
+					`${thread.threadID}_female.mp3`
+				);
+
+				await global.utils.downloadFile(
+					`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
+						content
+					)}&tl=${languageToSay}&client=tw-ob&idx=1`,
+					pathFemale
+				);
+				api.sendMessage(
+					{ attachment: createReadStream(pathFemale) },
+					thread.threadID,
+					() => unlinkSync(pathFemale)
+				);
+			} catch (error) {
+				console.error("Error sending a message:", error);
+			}
+		}
+
+		for (const thread of threadList) {
+			if (sentCount >= 20) {
+				break;
+			}
+			if (
+				thread.isGroup &&
+				thread.name !== thread.threadID &&
+				thread.threadID !== event.threadID
+			) {
+				await sendMessage(thread);
+			}
+		}
+
+		if (sentCount > 0) {
+			api.sendMessage(`› Sent the notification successfully.`, event.threadID);
+		} else {
+			api.sendMessage(
+				"› No eligible group threads found to send the message to.",
+				event.threadID
+			);
+		}
+	},
+};
