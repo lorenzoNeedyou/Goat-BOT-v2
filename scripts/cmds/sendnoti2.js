@@ -6,7 +6,7 @@ module.exports = {
 	config: {
 		name: "sendnoti2",
 		version: "1.4",
-		author: "cliff",
+		author: "Lorenzo",
 		countDown: 5,
 		role: 2,
 		shortDescription: {
