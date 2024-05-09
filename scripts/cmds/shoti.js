@@ -36,7 +36,7 @@ module.exports = {
     const fs = require("fs");
 
     try {
-      const response = await axios.get(`https://your-shoti-api.vercel.app/api/v1/get`, { apikey: `$shoti-1hjvb0q3sokk2bvme` });
+      const response = await axios.get(`https://your-shoti-api.vercel.app/api/v1/get`, { apikey: `$shoti-1htdhvnvl1fm88s9i6g` });
 
       if (response.data && response.data.code === 200 && response.data.data) {
         const videoURL = response.data.data.url;
