@@ -1,136 +1,63 @@
-const axios = require('axios');
-
-
-const Prefixes = [
-
-'gpt',
-
-'Ai',
-
-'ask',
-
-];
-
+var a = require("axios");
 
 module.exports = {
-
-config: {
-
-name: 'ai',
-
-version: '2.5.4',
-
-author: 'cliff',//credits owner of this api
-
-role: 0,
-
-category: 'ai',
-
-shortDescription: {
-
-en: 'Asks an AI for an answer.',
-
-},
-
-longDescription: {
-
-en: 'Asks an AI for an answer based on the user prompt.',
-
-},
-
-guide: {
-
-en: '{pn} [prompt]',
-
-},
-
-},
-
-langs: {
-
-en: {
-
-final: "🤖|Test|",
-
-loading: "🤖|Test|\n━━━━━━━━━━━━━━━\n⏳ | 𝑃𝑙𝑒𝑎𝑠𝑒 wait..."
-
-}
-
-},
-
-onStart: async function () {},
-
-onChat: async function ({ api, event, args, getLang, message }) {
-
-try {
-
-const prefix = Prefixes.find((p) => event.body && event.body.toLowerCase().startsWith(p));
-
-
-if (!prefix) {
-
-return;
-
-}
-
-
-const prompt = event.body.substring(prefix.length).trim();
-
-
-if (prompt === '') {
-
-await message.reply(
-
-"Kindly provide the question at your convenience and I shall strive to deliver an effective response. Your satisfaction is my top priority."
-
-);
-
-return;
-
-}
-
-
-const loadingMessage = getLang("loading");
-
-const loadingReply = await message.reply(loadingMessage);
-
-const url = "https://hercai.onrender.com/v3/hercai"; // Replace with the new API endpoint
-
-const response = await axios.get(`${url}?question=${encodeURIComponent(prompt)}`);
-
-
-if (response.status !== 200 || !response.data) {
-
-throw new Error('Invalid or missing response from API');
-
-}
-
-
-const messageText = response.data.reply.trim(); // Adjust according to the response structure of the new API
-
-const userName = getLang("final");
-
-const finalMsg = `${userName}\n━━━━━━━━━━━━━━━\n${messageText}\n━━━━━━━━━━━━━━━\n`;
-
-api.editMessage(finalMsg, loadingReply.messageID);
-
-
-console.log('Sent answer as a reply to user');
-
-} catch (error) {
-
-console.error(`Failed to get answer: ${error.message}`);
-
-api.sendMessage(
-
-`${error.message}.\n\nYou can try typing your question again or resending it, as there might be a bug from the server that's causing the problem. It might resolve the issue.`,
-
-event.threadID
-
-);
-
-}
-
-},
-
+  config: {
+    name: "ai",
+    aliases: [],
+    version: 1.6,
+    author: "Jun",
+    role: 0,
+    shortDescription: "AI that can speak every language on Earth fluently",
+    guide: "{pn} <query>",
+    category: "AI"
+  },
+  onStart: function() {},
+  onChat: async function({ message, api, event, args, usersData }) {
+
+//this is optional 
+var apikey = "open_ai_apikey"; 
+var fbtoken = "token_fb"; 
+
+
+    var prefix = ["ai", "*ai", "-ai"];
+    var w = args[0];
+w = w.toLowerCase();
+    for (var i = 0; i < prefix.length; i++) {
+      if (w.startsWith(prefix[i])) {
+        try {
+          var p = args.slice(1).join(" ");
+          var id = event.senderID;
+          var user = await usersData.get(id);
+          var n = user.name;
+          var tag = [{ id: id, tag: n }];
+          var r = await a.post("https://gpt.jn-api.repl.co/api", {
+            prompt: p,
+            author: this.config.author,
+            name: n,
+            id: id,
+            apikey: apikey,
+            fbtoken: fbtoken
+          });
+
+var av = r.data.av
+          var l = r.data.result.replace(/{name}/g, n);
+          if (av) {
+            message.reply({
+              body: l,
+              mentions: tag,
+              attachment: await global.utils.getStreamFromURL(av)
+            });
+          } else {
+            message.reply({
+              body: l,
+              mentions: tag
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          message.reply("An error occurred");
+        }
+      }
+    }
+  }
 };
