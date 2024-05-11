@@ -1,67 +1,52 @@
+const axios = require('axios');
+const fs = require('fs');
+const request = require('request');
+
 module.exports = {
   config: {
-    name: "shoti",
-    version: "1.0",
-    author: "Yosh Alterado", //tangina neto oh magtitikol nanga lang chachange pa creds ayusin mo par
-    countDown: 5,
-    role: 0,
-    shortDescription: {
-      vi: "PAnh TIhKol",
-      en: "pantikol",
-    },
-    longDescription: {
-      vi: "pantikol",
-      en: "pantikol",
-    },
-    category: "chatbox",
-    guide: {
-      vi: "tikol",
-      en: "tikol",
-    },
+    name: 'shoti',
+    version: '1.0',
+    author: 'Ronald Allen Albania',
+    countDown: 20,
+    category: 'chatbox',
   },
 
   langs: {
-    vi: {
-     
-    },
-    en: {
-    
-    },
+    vi: {},
+    en: {}
   },
 
-  onStart: async function ({ api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName, getLang }) {
-    api.sendMessage("🤖 | Generating For Shoti Video....", event.threadID);
-    const axios = require("axios");
-    const request = require('request');
-    const fs = require("fs");
+  onStart: async function ({ api, event }) {
+    api.sendMessage('Fetching a short video from Shoti...', event.threadID);
 
     try {
-      const response = await axios.get(`https://your-shoti-api.vercel.app/api/v1/get`, { apikey: `$shoti-1htdhvnvl1fm88s9i6g` });
+      let response = await axios.post('https://api--v1-shoti.vercel.app/api/v1/get', {
+        apikey: 'shoti-1ha4h3do8at9a7ponr',
+      });
 
-      if (response.data && response.data.code === 200 && response.data.data) {
-        const videoURL = response.data.data.url;
-        const userName = response.data.user.username;
-        const userNickname = response.data.user.nickname;
-
-        const file = fs.createWriteStream(__dirname + "/cache/shoti.mp4");
-        const rqs = request(encodeURI(videoURL));
-        console.log('Shoti Downloaded >>> ' + response.data.data.id);
+      if (response.data.code === 200 && response.data.data && response.data.data.url) {
+        const videoUrl = response.data.data.url;
+        const filePath = __dirname + '/cache/shoti.mp4';
+        const file = fs.createWriteStream(filePath);
+        const rqs = request(encodeURI(videoUrl));
 
         rqs.pipe(file);
-        file.on('finish', () => {
-          const messageToSend = {
-            body: `Shoti Video for ${userName} (${userNickname}) [ 🤖 | Baki ]:`,
-            attachment: fs.createReadStream(__dirname + '/cache/shoti.mp4')
-          };
 
-          api.sendMessage(messageToSend, event.threadID, event.messageID);
+        file.on('finish', async () => {
+          const userInfo = response.data.data.user;
+          const username = userInfo.username;
+          const nickname = userInfo.nickname;
+
+          await api.sendMessage({ attachment: fs.createReadStream(filePath) }, event.threadID);
+          api.sendMessage(`Username: @${username}\nNickname: ${nickname}`, event.threadID);
         });
       } else {
-        api.sendMessage("Failed to fetch the video.", event.threadID);
+        api.sendMessage('No video URL found in the API response.', event.threadID);
       }
+
     } catch (error) {
       console.error(error);
-      api.sendMessage("An error occurred while fetching the video.", event.threadID);
+      api.sendMessage('An error occurred while fetching the video.', event.threadID);
     }
-  },
+  }
 };
