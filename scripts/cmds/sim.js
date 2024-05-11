@@ -4,7 +4,7 @@ module.exports = {
 		name: 'sim',
 		version: '1.2',
 		author: 'KENLIEPLAYS',
-		countDown: 3,
+		countDown: 0,
 		role: 0,
 		shortDescription: 'Simsimi ChatBot by Simsimi.fun',
 		longDescription: {
@@ -20,7 +20,7 @@ module.exports = {
 	langs: {
 		en: {
 			chatting: 'Already Chatting with sim...',
-			error: 'Server Down Please Be Patient'
+			error: 'What?'
 		}
 	},
 
@@ -57,7 +57,7 @@ module.exports = {
 
 async function getMessage(yourMessage, langCode) {
 	try {
-		const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=ph&message=${yourMessage}&filter=false`);
+		const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=ph&message=${yourMessage}&filter=true`);
 		if (!res.data.success) {
 			throw new Error('API returned a non-successful message');
 		}
@@ -66,4 +66,4 @@ async function getMessage(yourMessage, langCode) {
 		console.error('Error while getting a message:', err);
 		throw err;
 	}
-      }
+}
