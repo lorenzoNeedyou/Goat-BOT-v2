@@ -2,7 +2,7 @@ module.exports = {
   config: {
     name: "pending",
     version: "1.0",
-    author: "Lorenzo",
+    author: "لوفي",
     countDown: 5,
     role: 2,
     shortDescription: {
@@ -23,8 +23,8 @@ langs: {
         approveSuccess: "Approved successfully %1 threads!",
  
         cantGetPendingList: "Can't get the pending list!",
-        returnListPending: "Â»ã€ŒPENDINGã€Â«â® The whole number of threads to approve is: %1 thread â¯\n\n%2",
-        returnListClean: "ã€ŒPENDINGã€There is no thread in the pending list"
+        returnListPending: "»「PENDING」«❮ The whole number of threads to approve is: %1 thread ❯\n\n%2",
+        returnListClean: "「PENDING」There is no thread in the pending list"
     }
   },
  
@@ -47,7 +47,7 @@ onReply: async function({ api, event, Reply, getLang, commandName, prefix }) {
         const index = body.split(/\s+/);
         for (const singleIndex of index) {
             if (isNaN(singleIndex) || singleIndex <= 0 || singleIndex > Reply.pending.length) return api.sendMessage(getLang("invaildNumber", singleIndex), threadID, messageID);
-            api.sendMessage(`ã€Œ ð—”ð—£ð—£ð—¥ð—¢ð—©ð—˜ð—— ã€\n\nâ€¢This thread is officially approved by the admin.\nEnjoy using the bot and please do not spam. â™¡\nâ€” [ ã‚‚.Lorenzo ]`, Reply.pending[singleIndex - 1].threadID);
+            api.sendMessage(`「 𝗔𝗣𝗣𝗥𝗢𝗩𝗘𝗗 」\n\n•This thread is officially approved by the admin.\nEnjoy using the bot and please do not spam. ♡\n— [ も.LORENZO ]`, Reply.pending[singleIndex - 1].threadID);
             count+=1;
         }
         return api.sendMessage(getLang("approveSuccess", count), threadID, messageID);
@@ -78,4 +78,4 @@ onStart: async function({ api, event, getLang, commandName }) {
 	}, messageID);
     else return api.sendMessage(getLang("returnListClean"), threadID, messageID);
 }
-                                       }
+}
