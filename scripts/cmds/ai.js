@@ -1,63 +1,47 @@
-var a = require("axios");
+const axios = require("axios");
 
 module.exports = {
-  config: {
-    name: "ai",
-    aliases: [],
-    version: 1.6,
-    author: "Jun",
-    role: 0,
-    shortDescription: "AI that can speak every language on Earth fluently",
-    guide: "{pn} <query>",
-    category: "AI"
-  },
-  onStart: function() {},
-  onChat: async function({ message, api, event, args, usersData }) {
-
-//this is optional 
-var apikey = "open_ai_apikey"; 
-var fbtoken = "token_fb"; 
-
-
-    var prefix = ["ai", "*ai", "-ai"];
-    var w = args[0];
-w = w.toLowerCase();
-    for (var i = 0; i < prefix.length; i++) {
-      if (w.startsWith(prefix[i])) {
-        try {
-          var p = args.slice(1).join(" ");
-          var id = event.senderID;
-          var user = await usersData.get(id);
-          var n = user.name;
-          var tag = [{ id: id, tag: n }];
-          var r = await a.post("https://gpt.jn-api.repl.co/api", {
-            prompt: p,
-            author: this.config.author,
-            name: n,
-            id: id,
-            apikey: apikey,
-            fbtoken: fbtoken
-          });
-
-var av = r.data.av
-          var l = r.data.result.replace(/{name}/g, n);
-          if (av) {
-            message.reply({
-              body: l,
-              mentions: tag,
-              attachment: await global.utils.getStreamFromURL(av)
-            });
-          } else {
-            message.reply({
-              body: l,
-              mentions: tag
-            });
-          }
-        } catch (error) {
-          console.error(error);
-          message.reply("An error occurred");
+    config: {
+        name: "ai",
+        version: "1.0",
+        author: "Rui",
+        countDown: 5,
+        role: 0,
+        shortDescription: {
+            vi: "Tương tác với trí tuệ nhân tạo để nhận câu trả lời cho câu hỏi của bạn.",
+            en: "Interact with an AI to get responses to your questions."
+        },
+        longDescription: {
+            vi: "Tương tác với trí tuệ nhân tạo để nhận câu trả lời cho câu hỏi của bạn.",
+            en: "Interact with an AI to get responses to your questions."
+        },
+        category: "group",
+        guide: {
+            vi: "Sử dụng: `:ai <câu hỏi>`",
+            en: "Usage: `:ai <question>`"
         }
-      }
+    },
+
+    onStart: async function ({ api, args, message, event, threadsData, usersData, dashBoardData, globalData, threadModel, userModel, dashBoardModel, globalModel, role, commandName, getLang }) {
+        const question = args.join(" ").trim();
+        const senderID = event.senderID;
+
+        if (question) {
+            try {
+                const userName = usersData[senderID].name;
+                const botName = module.exports.config.name;
+                const formattedQuestion = `${userName} asked: ${question} (Bot: ${botName})`;
+
+                message.reply("🤖 " + getLang("hello") + ", " + userName + "! " + getLang("helloWithName", senderID));
+                const response = await axios.get(`https://hercai.onrender.com/v2/hercai?question=${encodeURIComponent(formattedQuestion)}`);
+                const aiResponse = response.data.reply;
+                message.reply(`YueAI: ${aiResponse}`);
+            } catch (error) {
+                console.error("Error fetching AI response:", error);
+                message.reply("Failed to get AI response. Please try again later.");
+            }
+        } else {
+            message.reply("Please provide a question after the command. For example: `:ai Hello`");
+        }
     }
-  }
 };
