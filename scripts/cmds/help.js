@@ -105,7 +105,7 @@ module.exports = {
 				+ "\n├─────⭔"
 				+ "\n│ Page [ %2/%3 ]"
 				+ "\n│ 𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲, 𝐓𝐡𝐞 𝐁𝐨𝐭 𝐇𝐚𝐬 %4 𝐜𝐨𝐦𝐦𝐚𝐧𝐝𝐬 𝐭𝐡𝐚𝐭 𝐜𝐚𝐧 𝐁𝐞 𝐔𝐬𝐞𝐝"
-				+ "\n│ » 𝗧𝘆𝗽𝗲 %5help <𝗽𝗮𝗴𝗲> 𝗧𝗼 𝗩𝗶𝗲𝘄 𝗧𝗵𝗲 𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗟𝗜𝗦𝗧"
+				+ "\n│ » 𝗧𝘆𝗽𝗲 %5help <page> 𝗧𝗼 𝗩𝗶𝗲𝘄 𝗧𝗵𝗲 𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗟𝗜𝗦𝗧"
 				+ "\n│ » 𝗧𝘆𝗽𝗲 %5help 𝘁𝗼 𝘃𝗶𝗲𝘄 𝘁𝗵𝗲 𝗱𝗲𝘁𝗮𝗶𝗹𝘀 𝗼𝗳 𝗵𝗼𝘄 𝗧𝗼 𝘂𝘀𝗲 𝗧𝗵𝗮𝘁 𝗖𝗼𝗺𝗺𝗮𝗻𝗱"
 				+ "\n├────────⭔"
 				+ "\n│ %6"
@@ -231,7 +231,7 @@ module.exports = {
 				arrayInfo.sort((a, b) => a.data - b.data); // sort by name
 				arrayInfo.sort((a, b) => a.priority > b.priority ? -1 : 1); // sort by priority
 				const { allPage, totalPage } = global.utils.splitPage(arrayInfo, numberOfOnePage);
-				if (𝗣𝗔𝗚𝗘 < 1 || 𝐩𝐚𝐠𝐞 > totalPage)
+				if (page < 1 || page > totalPage)
 					return message.reply(getLang("pageNotFound", page));
 
 				const returnArray = allPage[page - 1] || [];
