@@ -16,7 +16,7 @@ module.exports = {
     guide: "{pn} shoti3",
   },
   onStart: async function ({ api, event }) {
-    axios.get('https://shoti-server-v2.onrender.com/api/v1/get$shoti-1htm21smbsf687j282g').then(res => {
+    axios.get('https://your-shoti-api.vercel.app/api/v1/get').then(res => {
       let ext = res.data.url.substring(res.data.url.lastIndexOf(".") + 1);
       let callback = function () {
         api.sendMessage({
