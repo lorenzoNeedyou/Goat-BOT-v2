@@ -1,61 +1,75 @@
-module.exports = {
-	config: {
-		name: "resend",
-		version: "5.0",
-		author: "Sadman Anik",
-		countDown: 1,
-		role: 1,
-		shortDescription: {
-			en: "Enable/Disable Anti unsend mode"
-		},
-		longDescription: {
-			en: "Anti unsend mode. works with audio video and images"
-		},
-		category: "Admins",
-		guide: {
-			en :"{pn} on or off\nex: {pn} on"
-		},
-		envConfig: {
-			deltaNext: 5
-		}
-	},
+module.exports.config = {
+	name: "resend",
+	version: "2.0.0",
+	hasPermssion: 1,
+	credits: "Thọ & Mod By DuyVuong",
+	description: "Là resend thôi",
+	commandCategory: "general", 
+	usages: "resend",
+	cooldowns: 0,
+  hide:true,
+  dependencies: {"request":"",       
+                 "fs-extra":"",
+                 "axios":""
+                }
 
+};
 
-	onStart: async function ({ api, message, event, threadsData, args }) {
-let resend = await threadsData.get(event.threadID, "settings.reSend");
+module.exports.handleEvent = async function ({ event, api, client, Users }) {
+    const request = global.nodemodule["request"];
+    const axios = global.nodemodule["axios"]
+    const { writeFileSync, createReadStream } = global.nodemodule["fs-extra"];
+  let {messageID, senderID, threadID, body:content } = event;
+     if (!global.logMessage) global.logMessage = new Map();	
+     if (!global.data.botID) global.data.botID = api.getCurrentUserID();
+  
+  const thread = global.data.threadData.get(parseInt(threadID)) || {};
+  
+  if (typeof thread["resend"] != "undefined" && thread["resend"] == false) return;
+  if (senderID == global.data.botID) return;
 
-			//console.log(resend)
-		if(resend === undefined){
-			await threadsData.set(event.threadID, true, "settings.reSend");
-		}
-		//console.log(await threadsData.get(event.threadID, "settings.reSend"))
-		if (!["mam", "man"].includes(args[0]))
-			return message.reply("Bad")
-		await threadsData.set(event.threadID, args[0] === "mam", "settings.reSend");
-		console.log(await threadsData.get(event.threadID, "settings.reSend"))
-		if(args[0] == "mam"){
-			if(!global.reSend.hasOwnProperty(event.threadID)){
-		global.reSend[event.threadID] = []
-		}
-		global.reSend[event.threadID] = await api.getThreadHistory(event.threadID, 100, undefined)
-}
-		return message.reply(`${args[0] === "mam" ? "Hello" : "Sup"}`);
-	},
+        
+     if(event.type != "message_unsend") global.logMessage.set(messageID,{
+        msgBody: content,
+        attachment:event.attachments
+      })
+    if(event.type == "message_unsend") {
+      var getMsg = global.logMessage.get(messageID);
+      if(!getMsg) return;
+     let name = await Users.getNameUser(senderID);
+      if(getMsg.attachment[0] == undefined) return api.sendMessage(`${name} unsend the message \n\nContent: ${getMsg.msgBody}`,threadID)
+      else {
+            let num = 0
+            let msg = {
+              body:`${name} unsend the message \n${getMsg.attachment.length} Attachments${(getMsg.msgBody != "") ? `\n\nContent: ${getMsg.msgBody}` : ""}`,
+              attachment:[],
+              mentions:{tag:name,id:senderID}
+            }
+          for (var i of getMsg.attachment) {
+            num += 1;
+        var getURL = await request.get(i.url);
+        var pathname = getURL.uri.pathname;
+        var ext = pathname.substring(pathname.lastIndexOf(".") + 1);
+        var path = __dirname + `/cache/${num}.${ext}`;
+        var data = (await axios.get(i.url, { responseType: 'arraybuffer' })).data;
+        writeFileSync(path, Buffer.from(data, "utf-8"));
+      msg.attachment.push(createReadStream(path));
+  }
+        api.sendMessage(msg, threadID);
+        }
+      }
+   }
 
-onChat: async function ({ api, threadsData, usersData, event, message }) {
-	if(event.type !== "message_unsend"){
-		let resend = await threadsData.get(event.threadID, "settings.reSend");
-		if (!resend)
-			return;
+module.exports.run = async function({ api, event, Threads }) {
+	const { threadID, messageID } = event;
 
-		if(!global.reSend.hasOwnProperty(event.threadID)){
-		global.reSend[event.threadID] = []
-		}
-		global.reSend[event.threadID].push(event)
-
-	if(global.reSend.length >50){
-		global.reSend.shift()
-			}
-		}
-	}
-}
+	var data = (await Threads.getData(threadID)).data;
+	
+	if (typeof data["resend"] == "undefined" || data["resend"] == false) data["resend"] = true;
+	else data["resend"] = false;
+	
+	await Threads.setData(parseInt(threadID), { data });
+	global.data.threadData.set(parseInt(threadID), data);
+	
+	return api.sendMessage(`is already ${(data["resend"] == true) ? "turn on" : "Turn off"} successfully!`, threadID, messageID);
+		    }
