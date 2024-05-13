@@ -20,8 +20,8 @@ module.exports = {
     api.sendMessage('Fetching a short video from Shoti...', event.threadID);
 
     try {
-      let response = await axios.post('https://shoti-server-v2.onrender.com/api/v1/get', {
-        apikey: 'shoti-1htm21smbsf687j282g',
+      let response = await axios.post('https://api--v1-shoti.vercel.app/api/v1/get', {
+        apikey: '$shoti-1hfvghkgsce9f0vh48o',
       });
 
       if (response.data.code === 200 && response.data.data && response.data.data.url) {
