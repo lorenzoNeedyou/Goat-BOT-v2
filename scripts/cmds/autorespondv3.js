@@ -18,7 +18,7 @@ const { body, messageID, threadID } = event;
 
 // Reactions based on words
 const emojis = {
-"💜": ["Cliff", "August", "Jonell", "David", "purple", "Fritz", "Sab", "Haru", "Xuazane", "Kim"],
+"💜": ["Cliff", "Lorenzo", "August", "Jonell", "David", "purple", "Fritz", "Sab", "Haru", "Xuazane", "Kim"],
 "💚": ["dia", "seyj", "ginanun", "gaganunin", "pfft", "xyrene", "gumanun"],
 "😾": ["Jo", "Ariii", "talong", "galit"],
 "😼": ["wtf", "fck", "haaays", "naku", "ngi ", "ngek", "nge ", "luh", "lah"],
@@ -31,9 +31,9 @@ const emojis = {
 // Replies to specific words
 const replies = {
 "Bye": "umalis ka gago🖕🏻🖕🏻",
-"Fritz": "ano nanaman ung Kaylangan mo sa adminbot ko 🙁",
+"Lorenzo": "ano nanaman ung Kaylangan mo sa adminbot ko 🙁",
 "fh": "pang ilang fh mo na iyan?",
-"hi po": "Hello Can U attracted my adminbot 👉 Fritz Martin Amparado",
+"hi po": "Hello Can U attracted my adminbot",
 "lastchat": "sagot ko na talaga lastchat, pag may nagchat pa after me, pangit siya.",
 "*": "Sige, correct mo typo mo, tanga ka kasi🤦🏻‍♂️",
 };
