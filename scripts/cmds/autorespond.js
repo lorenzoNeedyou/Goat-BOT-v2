@@ -18,10 +18,10 @@ const { body, messageID, threadID } = event;
 
 // Reactions based on words
 const emojis = {
-"💜": ["Cliff", "Lorenzo", "Server", "August", "Jonell", "David", "purple", "Fritz", "Sab", "Haru", "Xuazane", "Kim"],
+"💜": ["server", "Lorenzo", "list", "lorenzo", "k", "David", "purple", "Fritz", "Sab", "Haru", "Xuazane", "Kim"],
 "💚": ["dia", "seyj", "ginanun", "gaganunin", "pfft", "xyrene", "gumanun"],
 "😾": ["Jo", "Ariii", "talong", "galit"],
 "😼": ["wtf", "fck", "haaays", "naku", "ngi ", "ngek", "nge ", "luh", "lah"],
-"😸": ["pill", "laugh", "lt ", "gagi", "huy", "hoy"],
+"😸": ["pill", "laugh", "lt ", "gagi", "huy", "hoy", "haha","hahaha"],
 "🌀": ["prodia", "sdxl", "bardv3", "tanongv2", "-imagine", "genimg", "Tanongv4", "kamla", "-shortcut"],
   
