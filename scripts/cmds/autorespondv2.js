@@ -19,9 +19,9 @@ const { body, messageID, threadID } = event;
 // Reactions based on words
 const emojis = {
 "🌸": ["Ritsu", "Princess", "sanchokuin", "Goddess", "Anaïs", "Barro", "Tsiaro", "Kazu", "Thea", "Aesther"],
-"💚": ["jolie", "belle", "beau", "gaganunin", "pfft", "xyrene", "fantastique"],
-"😾": ["🤨", "nooo", "talong", "galit"],
-"😼": ["wtf", "fck", "haaays", "stfu", "ngi ", "ngek", "nge ", "luh", "lah"],
+"💚": ["jolie", "love", "server", "belle", "beau", "gaganunin", "pfft", "xyrene", "fantastique"],
+"😾": ["🤨", "nooo", "talong", "galit" "why" "ai"],
+"😼": ["wtf", "fck", "haaays", "stfu", "ngi ", "ngek", "nge ", "luh", "lah" "-shoti" "kalma",,],
 "😸": ["pill", "laugh", "lt ", "blague", "huy", "hoy"],
 "⏳": ["prodia", "sdxl", "bardv3", "tanongv2", "-imagine", "genimg", "Tanongv4", "kamla", "-shortcut"],
 "👋": ["salut", "bonjour", "c v"],
@@ -33,6 +33,7 @@ const replies = {
 "Bye": "A+ tard 🌸😘...",
 "muaah": "💋🌷 bisous ",
 "kaiz": "De aona ? ",
+"love": "Kayo naba ?",
 "who is you lover ?": "𝗧𝗛𝗘𝗔🌷 𝗶𝘀 𝗺𝘆 𝗘𝘃𝗲𝗿𝘆𝘁𝗵𝗶𝗻𝗴🌸"};
 
 // React based on words
