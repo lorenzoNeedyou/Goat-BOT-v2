@@ -19,7 +19,8 @@
 		"ignoreCommand": []
 	},
 	"adminBot": [
-		"100082342305590"
+		"100082342305590",
+		"other uid"
 	],
 	"whiteListMode": {
 		"enable": false,
